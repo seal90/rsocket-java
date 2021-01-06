@@ -168,18 +168,18 @@ public interface TransportTest {
         .isTrue();
   }
 
-  //  @DisplayName("makes 10 fireAndForget with Large Payload in Requests")
-  //  @Test
-  //  default void largePayloadFireAndForget10() {
-  //    Flux.range(1, 10)
-  //        .flatMap(i -> getClient().fireAndForget(LARGE_PAYLOAD.retain()))
-  //        .as(StepVerifier::create)
-  //        .expectComplete()
-  //        .verify(getTimeout());
-  //
-  //    Assertions.assertThat(getTransportPair().responder.awaitUntilObserved(10, getTimeout()))
-  //        .isTrue();
-  //  }
+  @DisplayName("makes 10 fireAndForget with Large Payload in Requests")
+  @Test
+  default void largePayloadFireAndForget10() {
+    Flux.range(1, 10)
+        .flatMap(i -> getClient().fireAndForget(LARGE_PAYLOAD.retain()))
+        .as(StepVerifier::create)
+        .expectComplete()
+        .verify(getTimeout());
+
+    Assertions.assertThat(getTransportPair().responder.awaitUntilObserved(10, getTimeout()))
+        .isTrue();
+  }
 
   @DisplayName("makes 10 metadataPush requests")
   @Test
@@ -195,19 +195,19 @@ public interface TransportTest {
         .isTrue();
   }
 
-  //  @DisplayName("makes 10 metadataPush with Large Metadata in requests")
-  //  @Test
-  //  default void largePayloadMetadataPush10() {
-  //    Assumptions.assumeThat(getTransportPair().withResumability).isFalse();
-  //    Flux.range(1, 10)
-  //        .flatMap(i -> getClient().metadataPush(ByteBufPayload.create("", LARGE_DATA)))
-  //        .as(StepVerifier::create)
-  //        .expectComplete()
-  //        .verify(getTimeout());
-  //
-  //    Assertions.assertThat(getTransportPair().responder.awaitUntilObserved(10, getTimeout()))
-  //        .isTrue();
-  //  }
+  @DisplayName("makes 10 metadataPush with Large Metadata in requests")
+  @Test
+  default void largePayloadMetadataPush10() {
+    Assumptions.assumeThat(getTransportPair().withResumability).isFalse();
+    Flux.range(1, 10)
+        .flatMap(i -> getClient().metadataPush(ByteBufPayload.create("", LARGE_DATA)))
+        .as(StepVerifier::create)
+        .expectComplete()
+        .verify(getTimeout());
+
+    Assertions.assertThat(getTransportPair().responder.awaitUntilObserved(10, getTimeout()))
+        .isTrue();
+  }
 
   @DisplayName("makes 1 requestChannel request with 0 payloads")
   @Test
@@ -250,19 +250,19 @@ public interface TransportTest {
         .verify(getTimeout());
   }
 
-  //  @DisplayName("makes 1 requestChannel request with 50 large payloads")
-  //  @Test
-  //  default void largePayloadRequestChannel50() {
-  //    Flux<Payload> payloads = Flux.range(0, 50).map(__ -> LARGE_PAYLOAD.retain());
-  //
-  //    getClient()
-  //        .requestChannel(payloads)
-  //        .doOnNext(Payload::release)
-  //        .as(StepVerifier::create)
-  //        .expectNextCount(50)
-  //        .expectComplete()
-  //        .verify(getTimeout());
-  //  }
+  @DisplayName("makes 1 requestChannel request with 50 large payloads")
+  @Test
+  default void largePayloadRequestChannel50() {
+    Flux<Payload> payloads = Flux.range(0, 50).map(__ -> LARGE_PAYLOAD.retain());
+
+    getClient()
+        .requestChannel(payloads)
+        .doOnNext(Payload::release)
+        .as(StepVerifier::create)
+        .expectNextCount(50)
+        .expectComplete()
+        .verify(getTimeout());
+  }
 
   @DisplayName("makes 1 requestChannel request with 20,000 payloads")
   @Test
@@ -388,17 +388,17 @@ public interface TransportTest {
         .verify(getTimeout());
   }
 
-  //  @DisplayName("makes 50 requestResponse requests")
-  //  @Test
-  //  default void largePayloadRequestResponse50() {
-  //    Flux.range(1, 50)
-  //        .flatMap(
-  //            i -> getClient().requestResponse(LARGE_PAYLOAD.retain()).doOnNext(Payload::release))
-  //        .as(StepVerifier::create)
-  //        .expectNextCount(50)
-  //        .expectComplete()
-  //        .verify(getTimeout());
-  //  }
+  @DisplayName("makes 50 requestResponse requests")
+  @Test
+  default void largePayloadRequestResponse50() {
+    Flux.range(1, 50)
+        .flatMap(
+            i -> getClient().requestResponse(LARGE_PAYLOAD.retain()).doOnNext(Payload::release))
+        .as(StepVerifier::create)
+        .expectNextCount(50)
+        .expectComplete()
+        .verify(getTimeout());
+  }
 
   @DisplayName("makes 10,000 requestResponse requests")
   @Test
