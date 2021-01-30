@@ -34,6 +34,12 @@ final class TcpServerTransportTest {
     assertThat(TcpServerTransport.create("test-bind-address", 8000)).isNotNull();
   }
 
+  @DisplayName("creates Unix Domain Socket server")
+  @Test
+  void createDomainSocketAddress() {
+    assertThat(TcpServerTransport.create("/tmp/test.sock")).isNotNull();
+  }
+
   @DisplayName("creates server with InetSocketAddress")
   @Test
   void createInetSocketAddress() {

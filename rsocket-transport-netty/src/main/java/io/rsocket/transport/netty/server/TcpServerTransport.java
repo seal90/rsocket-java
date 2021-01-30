@@ -18,7 +18,7 @@ package io.rsocket.transport.netty.server;
 
 import static io.rsocket.frame.FrameLengthCodec.FRAME_LENGTH_MASK;
 
-import io.rsocket.transport.ClientTransport;
+import io.netty.channel.unix.DomainSocketAddress;
 import io.rsocket.transport.ServerTransport;
 import io.rsocket.transport.netty.RSocketLengthCodec;
 import io.rsocket.transport.netty.TcpDuplexConnection;
@@ -62,6 +62,19 @@ public final class TcpServerTransport implements ServerTransport<CloseableChanne
   public static TcpServerTransport create(String bindAddress, int port) {
     Objects.requireNonNull(bindAddress, "bindAddress must not be null");
     TcpServer server = TcpServer.create().host(bindAddress).port(port);
+    return create(server);
+  }
+
+  /**
+   * Creates a new instance
+   *
+   * @param socketPath the <a href="http://en.wikipedia.org/wiki/Unix_domain_socket">Unix Domain Socket</a> address to bind to
+   * @return a new instance
+   * @throws NullPointerException if {@code socketPath} is {@code null}
+   */
+  public static TcpServerTransport create(String socketPath) {
+    Objects.requireNonNull(socketPath, "socketPath must not be null");
+    TcpServer server = TcpServer.create().bindAddress(() -> new DomainSocketAddress(socketPath)); //<1>;
     return create(server);
   }
 
